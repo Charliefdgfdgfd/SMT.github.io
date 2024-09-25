@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowball Fight</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            margin: 20px auto;
+            border: 2px solid #4CAF50;
+            background-color: #e0e0e0;
+            overflow: hidden;
+        }
+        .player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            bottom: 20px;
+            left: 375px;
+        }
+        .snowball {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: none;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Snowball Fight</h1>
+    <div class="game-container">
+        <div class="player" id="player"></div>
+        <div class="snowball" id="snowball"></div>
+    </div>
+    <div class="controls">
+        <button class="button" onclick="throwSnowball()">Throw Snowball</button>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const snowball = document.getElementById('snowball');
+        let playerPosition = 375;
+        let snowballPosition = playerPosition + 30; // Centered above player
+        let isSnowballThrown = false;
+
+        function throwSnowball() {
+            if (isSnowballThrown) return; // Prevent multiple snowballs
+
+            isSnowballThrown = true;
+            snowball.style.left = snowballPosition + 'px';
+            snowball.style.bottom = '70px';
+            snowball.style.display = 'block';
+
+            let interval = setInterval(() => {
+                let currentBottom = parseInt(window.getComputedStyle(snowball).bottom);
+                if (currentBottom > 400) {
+                    clearInterval(interval);
+                    snowball.style.display = 'none';
+                    isSnowballThrown = false;
+                } else {
+                    snowball.style.bottom = currentBottom + 5 + 'px';
+                }
+            }, 30);
+        }
+
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+            if (key === 'ArrowLeft' && playerPosition > 0) {
+                playerPosition -= 10;
+                player.style.left = playerPosition + 'px';
+                snowballPosition = playerPosition + 30; // Update snowball position
+            } else if (key === 'ArrowRight' && playerPosition < 750) {
+                playerPosition += 10;
+                player.style.left = playerPosition + 'px';
+                snowballPosition = playerPosition + 30; // Update snowball position
+            }
+        });
+    </script>
+</body>
+</html>

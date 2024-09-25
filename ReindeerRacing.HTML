@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reindeer Racing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .race-track {
+            position: relative;
+            width: 600px;
+            height: 200px;
+            margin: 20px auto;
+            border: 2px solid #4CAF50;
+            background-color: #e0e0e0;
+            overflow: hidden;
+        }
+        .reindeer {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: brown;
+            border-radius: 50%;
+            top: 75px;
+            left: 10px;
+        }
+        .reindeer::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background-color: darkred;
+            border-radius: 50%;
+            top: -20px;
+            left: 20px;
+        }
+        .finish-line {
+            position: absolute;
+            width: 10px;
+            height: 200px;
+            background-color: red;
+            right: 0;
+            top: 0;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reindeer Racing</h1>
+    <div class="race-track">
+        <div class="reindeer" id="reindeer"></div>
+        <div class="finish-line"></div>
+    </div>
+    <div class="controls">
+        <button class="button" onclick="moveReindeer()">Move Reindeer</button>
+        <button class="button" onclick="resetRace()">Reset Race</button>
+    </div>
+
+    <script>
+        let reindeer = document.getElementById('reindeer');
+        let reindeerPosition = 10;
+        let interval;
+        
+        function moveReindeer() {
+            if (interval) clearInterval(interval);
+            interval = setInterval(() => {
+                reindeerPosition += 5;
+                reindeer.style.left = reindeerPosition + 'px';
+                if (reindeerPosition >= document.querySelector('.race-track').offsetWidth - reindeer.offsetWidth - 10) {
+                    clearInterval(interval);
+                    alert('Congratulations! The reindeer reached the finish line!');
+                }
+            }, 100);
+        }
+
+        function resetRace() {
+            reindeerPosition = 10;
+            reindeer.style.left = reindeerPosition + 'px';
+            if (interval) clearInterval(interval);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa's Magic Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="icon" href="favicon.png" type="image/png"> <!-- Favicon -->
+    <link rel="stylesheet" href="styles.css"> <!-- Your custom stylesheet -->
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #b30000;
+            padding: 20px;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        header img {
+            height: 60px; /* Adjust as needed */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 10px 0;
+        }
+
+        main {
+            padding-bottom: 60px; /* Make room for footer */
+        }
+
+        .section {
+            margin: 20px auto;
+            max-width: 1200px; /* Increased for desktop */
+            border: 2px solid #b30000;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* Improved iframe styling */
+        .section iframe {
+            width: 100%;
+            height: 500px; /* Adjust height as needed */
+            border: none;
+            box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+        }
+
+        .countdown {
+            font-size: 1.5em;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #b30000;
+            color: #fff;
+            border-radius: 8px;
+            border: 2px solid #b30000;
+            max-width: 1200px; /* Increased for desktop */
+        }
+
+        footer {
+            background-color: #b30000;
+            padding: 10px;
+            color: white;
+            font-size: 0.9em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .game-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Increased gap for desktop */
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .game-menu button {
+            background-color: #b30000;
+            color: #fff;
+            border: none;
+            padding: 15px 30px; /* Increased padding for desktop */
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .game-menu button:hover {
+            background-color: #a30000;
+        }
+
+        .game-content {
+            display: none;
+        }
+
+        .game-content.active {
+            display: block;
+        }
+
+        .sidebar {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 2px solid #b30000;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: #b30000;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            header img {
+                height: 40px; /* Adjust for smaller screens */
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .countdown {
+                font-size: 1.2em;
+            }
+
+            .game-menu button {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+
+            .sidebar {
+                max-width: 100%;
+                margin: 10px;
+            }
+
+            .sidebar ul li a {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Santa.png" alt="Santa's Magic Tracker Logo"> <!-- Logo -->
+        <h1>Santa's Magic Tracker</h1>
+    </header>
+
+    <main>
+        <!-- Countdown Timer Section -->
+        <section class="countdown" id="countdown">
+            <h2>Countdown to Christmas!</h2>
+            <div id="timer"></div>
+        </section>
+
+        <!-- NORAD Santa Tracker Map Section -->
+        <section class="section">
+            <h2>Track Santa with NORAD</h2>
+            <iframe src="https://www.noradsanta.org/en/assets/map/embed.html" title="NORAD Santa Tracker" style="min-height:500px"></iframe>
+        </section>
+
+        <!-- Fun Games Section -->
+        <section class="section">
+            <h2>Fun Games</h2>
+            <div class="game-menu">
+                <button onclick="window.open('https://scratch.mit.edu/projects/963201644/embed', '_blank')">Christmas Radio</button>
+                <button onclick="window.open('https://scratch.mit.edu/projects/919385631/embed', '_blank')">Secret Santa</button>
+            </div>
+            <div id="game1" class="game-content">
+                <h3>Christmas Radio</h3>
+                <iframe src="https://scratch.mit.edu/projects/963201644/embed" title="Christmas Radio"></iframe>
+            </div>
+            <div id="game2" class="game-content">
+                <h3>Secret Santa</h3>
+                <iframe src="https://scratch.mit.edu/projects/919385631/embed" title="Secret Santa"></iframe>
+            </div>
+        </section>
+
+        <!-- Advent Calendar Section -->
+        <section class="section">
+            <h2>Advent Calendar</h2>
+            <iframe src="Calendar.html" title="Advent Calendar"style="min-height:800px"></iframe>
+        </section>
+
+        <!-- Sidebar with Additional Features -->
+        <section class="sidebar">
+            <h2>More Fun</h2>
+            <ul>
+                <li><a href="Countdown.html">Countdown to Christmas</a></li>
+                <li><a href="https://scratch.mit.edu/projects/963201644/embed" target="_blank">Christmas Radio</a></li>
+                <li><a href="https://scratch.mit.edu/projects/919385631/embed" target="_blank">Secret Santa</a></li>
+                <li><a href="https://www.noradsanta.org/en/assets/map/embed.html" target="_blank">Track Santa</a></li>
+                <li><a href="Calendar.html">Advent Calendar</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Santa's Magic Tracker</p>
+    </footer>
+
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                background: linear-gradient(to bottom, #1e3c72, #2a5298);
+                overflow: auto;
+            }
+            .snowflake {
+                position: absolute;
+                top: 0;
+                color: white;
+                font-size: 1.5em;
+                user-select: none;
+                animation: fall linear infinite;
+            }
+    
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh);
+                }
+            }
+        </style>
+    </head>
+    <body>
+    
+    <script>
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄️';
+            snowflake.classList.add('snowflake');
+    
+            const size = Math.random() * 1 + 0.5 + 'em';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.fontSize = size;
+            snowflake.style.opacity = Math.random();
+    
+            document.body.appendChild(snowflake);
+    
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+    
+        setInterval(createSnowflake, 100);
+    </script>
+    
+    </body>
+    </html>
+
+
+    <script>
+        // Countdown Timer Script
+        const targetDate = new Date('2024-12-25T00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('timer').innerHTML = "Merry Christmas!";
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>

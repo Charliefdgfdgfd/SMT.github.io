@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .map-container {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            margin: 20px auto;
+            border: 2px solid #4CAF50;
+            background-color: #e0e0e0;
+            overflow: hidden;
+        }
+        .santa {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('Santa.png');
+            background-size: cover;
+            top: 175px;
+            left: 10px;
+        }
+        .marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('Marker.png');
+            background-size: cover;
+        }
+        .path {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #d0f0c0, #a8d0e6);
+            clip-path: path('M0,200 Q400,50 800,200');
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Santa Tracking Map</h1>
+    <div class="map-container">
+        <div class="path"></div>
+        <div class="santa" id="santa"></div>
+        <img src="Marker.png" class="marker" id="marker1" style="left: 100px; top: 150px;">
+        <img src="Marker.png" class="marker" id="marker2" style="left: 300px; top: 100px;">
+        <img src="Marker.png" class="marker" id="marker3" style="left: 500px; top: 200px;">
+        <img src="Marker.png" class="marker" id="marker4" style="left: 700px; top: 150px;">
+    </div>
+    <div class="controls">
+        <button class="button" onclick="moveSanta()">Start Tracking</button>
+        <button class="button" onclick="resetMap()">Reset Map</button>
+    </div>
+
+    <script>
+        let santa = document.getElementById('santa');
+        let santaPosition = 10;
+        let interval;
+        const markers = document.querySelectorAll('.marker');
+        let markerIndex = 0;
+
+        function moveSanta() {
+            if (interval) clearInterval(interval);
+            interval = setInterval(() => {
+                if (markerIndex >= markers.length) {
+                    clearInterval(interval);
+                    alert('Santa has completed his route!');
+                    return;
+                }
+                const marker = markers[markerIndex];
+                let markerPosition = parseInt(marker.style.left);
+                if (santaPosition < markerPosition) {
+                    santaPosition += 5;
+                    santa.style.left = santaPosition + 'px';
+                } else {
+                    marker.style.opacity = '0.5'; // Indicate Santa reached the marker
+                    markerIndex++;
+                }
+            }, 100);
+        }
+
+        function resetMap() {
+            santaPosition = 10;
+            santa.style.left = santaPosition + 'px';
+            markers.forEach(marker => marker.style.opacity = '1'); // Reset marker opacity
+            if (interval) clearInterval(interval);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to Christmas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Favicon.png" type="image/x-icon"> <!-- Favicon -->
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #b30000;
+            padding: 20px;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        header img {
+            height: 50px; /* Adjust as needed */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .countdown {
+            font-size: 2em;
+            margin: 40px auto;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #b30000;
+            color: #fff;
+            border-radius: 8px;
+            border: 2px solid #b30000;
+        }
+
+        footer {
+            background-color: #b30000;
+            padding: 10px;
+            color: white;
+            font-size: 0.9em;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Santa.png" alt="Santa's Magic Tracker Logo"> <!-- Logo -->
+        <h1>Countdown to Christmas</h1>
+    </header>
+
+    <main>
+        <!-- Countdown Timer Section -->
+        <section class="countdown">
+            <h2>Days Until Christmas!</h2>
+            <div id="timer"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Santa's Magic Tracker</p>
+    </footer>
+
+    <script>
+        // Set the target date (Christmas)
+        const targetDate = new Date('2024-12-25T00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('timer').innerHTML = "Merry Christmas!";
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
